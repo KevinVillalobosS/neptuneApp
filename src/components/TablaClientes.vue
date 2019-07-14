@@ -29,8 +29,8 @@
                   <v-text-field v-model="editedItem.emailCliente" label="Email"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                    <v-combobox
-                        v-model="select"
+                    <v-combobox @change="selected"
+                        v-model="editedItem.evaluacionCliente"
                         :items= "[0,1,2,3,4,5]"
                         label="Evaluación"
                     ></v-combobox>
@@ -99,7 +99,7 @@
 
   export default {
 
-    props: ['tipo','datos'],
+    props: ['tipo','datos', 'nota'],
 
     data: () => ({
         select: '0',
@@ -113,7 +113,7 @@
         },
         { text: 'Rubro', value: 'rubro' },
         { text: 'Cantidad de Propuestas', value: 'cantidadPropuestas' },
-        { text: 'Evaluación', value: 'nota' },
+        { text: 'Evaluación', value: 'evaluacionCliente' },
         { text: 'Acciones', value: 'nombreCliente', sortable: false }
       ],
       editedIndex: -1,
@@ -153,14 +153,18 @@
     },
 
     methods: {
+      selected: function () {
+         this.nota = this.select;
+       },
+
         editItem (item) {
-        this.editedIndex = this.datos.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
+          this.editedIndex = this.datos.indexOf(item)
+          this.editedItem = Object.assign({}, item)
+          this.dialog = true
       },
-        nuevaPropuesta (item, accion){
+        enviarPropuesta (item, idCliente, accion){
           let json = JSON.stringify({
-                idCliente: "0",
+                idCliente: idCliente,
                 nombreCliente: item.nombreCliente,
                 rubroCliente: item.rubroCliente,
                 evaluacionCliente: item.evaluacionCliente,
@@ -171,6 +175,7 @@
           axios.post('http://localhost:9000/api/clientes/'+accion, json)
             .then(function (response) {
               console.log(response);
+              this.nota = 0;
             })
             .catch(function (error) {
               console.log("error");
@@ -195,10 +200,10 @@
         if (this.editedIndex > -1) {
           //Object.assign(this.datos[this.editedIndex], this.editedItem)
           //editar propuesta
-          //this.nuevaPropuesta(this.editedItem, this.editedIndex);
+          this.enviarPropuesta(this.editedItem, this.editedItem.idCliente, "editarCliente");
         } else {
           //nueva propuesta
-          this.nuevaPropuesta(this.editedItem, 'nuevoCliente');
+          this.enviarPropuesta(this.editedItem, "0", 'nuevoCliente');
           //this.datos.push(this.editedItem)
         }
         this.close()

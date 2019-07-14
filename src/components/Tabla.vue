@@ -134,9 +134,9 @@
 
     methods: {
         editItem (item) {
-        this.editedIndex = this.propuestas.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
+          this.editedIndex = this.propuestas.indexOf(item)
+          this.editedItem = Object.assign({}, item)
+          this.dialog = true
       },
         nuevaPropuesta (item, accion){
           let json = JSON.stringify({
