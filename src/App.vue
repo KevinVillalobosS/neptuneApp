@@ -6,9 +6,12 @@
           <a href="#" class="brand-logo right">JAPOTIR</a>
         </div>
       </nav>
-      <side-bar></side-bar>
-
-      <Propuestas></Propuestas>
+      <div class="side">
+        <side-bar></side-bar>
+      </div>
+      <div class="componentes">
+        <router-view/>
+      </div>
     </div>
   </div>
  
@@ -34,7 +37,21 @@ export default {
 
 <style>
 
-#es{
-  background-color: black !important;
-  height: 100% !important;
+.nav-wrapper{
+      background-color: #00898c !important;
 }
+
+/*.side {
+      width: 19%  !important;
+       height: 100% !important;
+    width: 80% !important;
+    }
+
+
+.componentes{
+    margin-left: 19.5% !important;
+    height: 100% !important;
+    width: 80% !important;
+} */
+
+</style>

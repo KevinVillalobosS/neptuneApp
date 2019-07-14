@@ -1,8 +1,8 @@
 <template>
     <div class="row">
         <Tabla 
-           :propuestas = "info"
-        
+            :propuestas = "info"
+            :tipo = "tipo"
         ></Tabla>
     </div>
 </template>
@@ -10,7 +10,6 @@
 <script>
 import Tabla from './Tabla.vue'
 const axios = require('axios');
-  
     export default {
         name: 'Propuestas',
         components: {
@@ -18,18 +17,22 @@ const axios = require('axios');
         },
         mounted() {
           axios
-            .get("http://localhost:9000/api/main/all")
+            .get("http://localhost:9000/api/main/propuestas")
             .then(response => {
-                this.data = response.data;
-                this.data.forEach( (elemento) => {
-                    console.log(elemento);
-                });
                 this.info = response.data;
-            })
+                console.log(this.info);
+            })/*,
+            axios
+            .get("http://localhost:9000/api/clientes/clientes")
+            .then(response => {
+                this.info = response.data;
+                console.log(this.info);
+            })*/
         },
         data() {
             return {
-                info: []
+                info: [],
+                tipo: "PROPUESTAS"
             }
         },
         methods:{
@@ -38,17 +41,12 @@ const axios = require('axios');
             }
         }
     }
-
-        
-   
-
-
 </script>
 
 <style scoped>
 
 .row{
-    margin-left: 19.5%;
+    margin-left: 19.5% ;
     height: 100% !important;
     width: 80% !important;
 }

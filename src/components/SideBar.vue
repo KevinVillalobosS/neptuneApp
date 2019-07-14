@@ -6,19 +6,20 @@
             </div>
             <a href="#user"><img class="circle" src="..\assets\persona.png"></a>
             <a href="#name"><span class="white-text name">Nombre Apellido</span></a>
-            <a href="#email"><span class="white-text email">nombre.apellido@symbiose.cl</span></a>
+            <a href="#rol"><span class="white-text email">rol</span></a>
         </div></li>
-        <li><a href="#!">Clientes</a></li>
-        <li><a href="#!">Usuarios</a></li>
+        <li>
+          <router-link to="/clientes"> Clientes</router-link>
+        </li>
+         <li>
+          <router-link to="/detProp">Propuestas</router-link>
+        </li>
         <li><a href="#!">Perfiles</a></li>
         <li><a href="#!">Estadisticas</a></li>
         <li><a href="#!">Ayuda</a></li>
       </ul>
       <a href="#" data-target="slide-out" className = 'caso' class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
-
-
-  
 </template>
 
 <script>

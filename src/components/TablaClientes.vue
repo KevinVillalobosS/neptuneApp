@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" className="nuevaProp">
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark class="mb-2" v-on="on">Nueva Propuesta</v-btn>
+          <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Cliente</v-btn>
         </template>
         <v-card>
           <v-card-title>
@@ -20,16 +20,20 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md4 >
-                  <v-text-field v-model="editedItem.nombrePropuesta" label="Nombre de propuesta"></v-text-field>
+                  <v-text-field v-model="editedItem.nombreCliente" label="Nombre de Cliente"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.cliente" label="Cliente"></v-text-field>
+                  <v-text-field v-model="editedItem.rubroCliente" label="Rubro"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.fecha" label="Fecha"></v-text-field>
+                  <v-text-field v-model="editedItem.emailCliente" label="Email"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.estado" label="Estado"></v-text-field>
+                    <v-combobox
+                        v-model="select"
+                        :items= "[0,1,2,3,4,5]"
+                        label="Evaluación"
+                    ></v-combobox>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -44,14 +48,21 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="propuestas"
+      :items="datos"
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <td>{{ props.item.nombrePropuesta }}</td>
-        <td class="text-xs-left">{{ props.item.cliente }}</td>
-        <td class="text-xs-left">{{ props.item.fecha }}</td>
-        <td class="text-xs-left">{{ props.item.estado }}</td>
+        <td>{{ props.item.nombreCliente }}</td>
+        <td class="text-xs-left">{{ props.item.rubroCliente }}</td>
+        <td class="text-xs-left">{{ props.item.cantidadPropuestas }}</td>
+        <td class="text-xs-right">
+            <div class="text-xs-center">
+                <v-rating 
+                    v-model="props.item.evaluacionCliente" 
+                    readonly>
+                </v-rating>
+            </div>
+        </td>
         <td class="justify-center layout px-0">
           <v-icon
             small
@@ -82,38 +93,47 @@
 </template>
 
 <script>
-  const axios = require('axios');
-  axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+    const axios = require('axios');
+    axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+
+
   export default {
 
-    props: ['tipo','propuestas'],
-    
+    props: ['tipo','datos'],
+
     data: () => ({
-      dialog: false,
-      headers: [
+        select: '0',
+        dialog: false,
+        headers: [
         {
-          text: 'Nombre de Propuesta',
+          text: 'Nombre del Cliente',
           align: 'left',
           sortable: false,
-          value: 'nombrePropuesta'
+          value: 'nombreCliente'
         },
-        { text: 'Cliente', value: 'Cliente' },
-        { text: 'Fecha', value: 'Fecha' },
-        { text: 'Estado', value: 'Estado' },
-        { text: 'Actions', value: 'nombrePropuesta', sortable: false }
+        { text: 'Rubro', value: 'rubro' },
+        { text: 'Cantidad de Propuestas', value: 'cantidadPropuestas' },
+        { text: 'Evaluación', value: 'nota' },
+        { text: 'Acciones', value: 'nombreCliente', sortable: false }
       ],
       editedIndex: -1,
       editedItem: {
-        nombrePropuesta: 'asd',
-        cliente: 'asd',
-        fecha: 'asd',
-        estado: 'asd',
+        idCliente: '0',
+        nombreCliente: 'nombre',
+        rubroCliente: 'rubro',
+        evaluacionCliente: '0',
+        emailCliente: 'email',
+        fonoCliente: '569 11223344',
+        estadoCliente: 'activo',
       },
       defaultItem: {
-        nombrePropuesta: '',
-        cliente: '',
-        fecha: '',
-        estado: '',
+        idCliente: '',
+        nombreCliente: '',
+        rubroCliente: '',
+        evaluacionCliente: '',
+        emailCliente: '',
+        fonoCliente: '',
+        estadoCliente: '',
       }
     }),
 
@@ -134,19 +154,21 @@
 
     methods: {
         editItem (item) {
-        this.editedIndex = this.propuestas.indexOf(item)
+        this.editedIndex = this.datos.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
         nuevaPropuesta (item, accion){
           let json = JSON.stringify({
-                idPropuesta: "0",
-                nombrePropuesta: item.nombrePropuesta,
-                cliente: item.cliente,
-                fecha: item.fecha,
-                estado: item.estado});
+                idCliente: "0",
+                nombreCliente: item.nombreCliente,
+                rubroCliente: item.rubroCliente,
+                evaluacionCliente: item.evaluacionCliente,
+                emailCliente: "email",
+                fonoCliente: item.fonoCliente,
+                estadoCliente: item.estadoCliente});
           console.log(json);
-          axios.post('http://localhost:9000/api/main/'+accion, json)
+          axios.post('http://localhost:9000/api/clientes/'+accion, json)
             .then(function (response) {
               console.log(response);
             })
@@ -157,8 +179,8 @@
       },
 
       deleteItem (item) {
-        const index = this.propuestas.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.propuestas.splice(index, 1)
+        const index = this.datos.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.datos.splice(index, 1)
       },
 
       close () {
@@ -170,15 +192,14 @@
       },
 
       save () {
-        console.log(this.propuestas);
         if (this.editedIndex > -1) {
-          //Object.assign(this.propuestas[this.editedIndex], this.editedItem)
+          //Object.assign(this.datos[this.editedIndex], this.editedItem)
           //editar propuesta
           //this.nuevaPropuesta(this.editedItem, this.editedIndex);
         } else {
           //nueva propuesta
-          this.nuevaPropuesta(this.editedItem, 'nuevaPropuesta');
-          //this.propuestas.push(this.editedItem)
+          this.nuevaPropuesta(this.editedItem, 'nuevoCliente');
+          //this.datos.push(this.editedItem)
         }
         this.close()
       }
@@ -195,3 +216,7 @@
    height: 1500% !important;
 }
 </style>
+
+
+
+     

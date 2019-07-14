@@ -8,6 +8,8 @@ import 'vue-material/dist/vue-material.css';
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import axios from 'axios'
+import router from './router.js'
+
 
 import jQuery from 'jquery';
 
@@ -18,5 +20,6 @@ Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App)
+  render: h => h(App),
+  router,
 }).$mount('#app')
