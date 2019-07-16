@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
       <v-dialog v-model="dialog" className="nuevaProp">
         <template v-slot:activator="{ on }">
-          <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo Cliente</v-btn>
+          <v-btn color="#00898c" dark class="mb-2" v-on="on">Nuevo Cliente</v-btn>
         </template>
         <v-card>
           <v-card-title>
@@ -220,6 +220,7 @@
    max-width: 90% !important;
    height: 1500% !important;
 }
+
 </style>
 
 

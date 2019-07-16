@@ -1,6 +1,5 @@
 <template>
- <div id="app">
-    <div id="es">
+ <v-app class="app">
       <nav>
         <div class="nav-wrapper">
           <a href="#" class="brand-logo right">JAPOTIR</a>
@@ -12,8 +11,7 @@
       <div class="componentes">
         <router-view/>
       </div>
-    </div>
-  </div>
+ </v-app>
  
 </template>
 
@@ -37,8 +35,14 @@ export default {
 
 <style>
 
+.app{
+  height: 100% !important;
+  background-color: #566d6d !important;
+}
+
 .nav-wrapper{
-      background-color: #00898c !important;
+
+    background-color: #00898c !important;
 }
 
 /*.side {

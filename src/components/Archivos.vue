@@ -1,46 +1,29 @@
 <template>
   <div>
     <v-toolbar flat color="white">
-      <v-toolbar-title> {{"ADMINISTRACIÓN DE " + this.tipo}} </v-toolbar-title>
+      <v-toolbar-title> ARCHIVOS DE DESARROLLO </v-toolbar-title>
       <v-divider
         class="mx-2"
         inset
         vertical
       ></v-divider>
       <v-spacer></v-spacer>
-      <v-layout row justify-center>
-        <v-dialog v-model="dialog" persistent max-width="1100px" className="nuevaProp">
+      <v-dialog v-model="dialog" className="nuevoArchivo">
         <template v-slot:activator="{ on }">
-          <v-btn color="#00898c" dark class="mb-2" v-on="on">Nueva Propuesta</v-btn>
+          <v-btn color="#00898c" dark class="mb-2" v-on="on">Subir Archivo</v-btn>
         </template>
         <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm6 md4 >
-                  <v-text-field v-model="editedItem.nombrePropuesta" label="Nombre de propuesta"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <!-- <v-text-field v-model="editedItem.cliente" label="Cliente"></v-text-field>   -->
-                    <v-combobox
-                      v-model="model"
-                      :items="items"
-                      :search-input.sync="search"
-                      hide-selected
-                      hint="Seleccione el Cliente asociado"
-                      label="Add some tags"
-                      persistent-hint
-                    />
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.fecha" label="Fecha"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.estado" label="Estado"></v-text-field>
-                </v-flex>
+                 <div class="container">
+                    <div class="large-12 medium-12 small-12 cell">
+                    <label>File
+                        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                    </label>
+                        <button v-on:click="submitFile()">Submit</button>
+                    </div>
+                </div>
               </v-layout>
             </v-container>
           </v-card-text>
@@ -51,18 +34,17 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      </v-layout>
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="propuestas"
+      :items="datos"
       class="elevation-1"
     >
       <template v-slot:items="props">
-        <td>{{ props.item.nombrePropuesta }}</td>
-        <td class="text-xs-left">{{ props.item.cliente }}</td>
-        <td class="text-xs-left">{{ props.item.fecha }}</td>
-        <td class="text-xs-left">{{ props.item.estado }}</td>
+        <td>{{ props.item.nombreArchivo }}</td>
+        <td class="text-xs-left">{{ props.item.tipoArchivo }}</td>
+        <td class="text-xs-left">{{ props.item.fechaArchivo }}</td>
+      
         <td class="justify-center layout px-0">
           <v-icon
             small
@@ -93,11 +75,12 @@
 </template>
 
 <script>
-  const axios = require('axios');
-  axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-  export default {
 
-    props: ['tipo','propuestas'],
+import Axios from 'axios';
+const axios = require('axios');
+export default {
+
+    props: ['tipo','datos', 'nota'],
     
     data: () => ({
       items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
@@ -106,28 +89,25 @@
       dialog: false,
       headers: [
         {
-          text: 'Nombre de Propuesta',
+          text: 'Nombre del Archivo',
           align: 'left',
           sortable: false,
-          value: 'nombrePropuesta'
+          value: 'nombreArchivo'
         },
-        { text: 'Cliente', value: 'Cliente' },
-        { text: 'Fecha', value: 'Fecha' },
-        { text: 'Estado', value: 'Estado' },
-        { text: 'Actions', value: 'nombrePropuesta', sortable: false }
+        { text: 'Tipo', value: 'tipoArchivo' },
+        { text: 'Fecha de Subida', value: 'fecha' },
+        { text: 'Actions', value: 'nombreArchivo', sortable: false }
       ],
       editedIndex: -1,
       editedItem: {
-        nombrePropuesta: 'asd',
-        cliente: 'asd',
-        fecha: 'asd',
-        estado: 'asd',
+        nombreArchivo: 'asd',
+        tipoArchivo: 'asd',
+        fechaArchivo: 'asd',
       },
       defaultItem: {
-        nombrePropuesta: '',
-        cliente: '',
-        fecha: '',
-        estado: '',
+        nombreArchivo: '',
+        tipoArchivo: '',
+        fechaArchivo: '',
       }
     }),
 
@@ -147,6 +127,34 @@
     },
 
     methods: {
+      handleFileUpload(){
+        this.file = this.$refs.file.files[0];
+        console.log(this.file);
+      },
+      submitFile(){
+         let formData = new FormData();
+
+            /*
+                Add the form data we need to submit
+            */
+          formData.append('file', this.file);
+          console.log(formData);
+        axios.post( 'http://localhost:9000/api/archivos/subir',
+          formData,
+          {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+          },
+         
+        ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(error){
+          console.log(error);
+        });
+      },
+
         editItem (item) {
           this.editedIndex = this.propuestas.indexOf(item)
           this.editedItem = Object.assign({}, item)
@@ -198,12 +206,16 @@
       }
     }
   }
-</script>
 
+</script>
 
 <style scoped>
 
-.v-dialog__content{
-   height: 700% !important;
+.container{
+    margin-left: 19.5% ;
+    width: 80% !important;
 }
+
 </style>
+
+
