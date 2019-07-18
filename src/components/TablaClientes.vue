@@ -8,7 +8,7 @@
         vertical
       ></v-divider>
       <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" className="nuevaProp">
+      <v-dialog v-model="dialog" className="nuevaProp"  persistent max-width="800px">
         <template v-slot:activator="{ on }">
           <v-btn color="#00898c" dark class="mb-2" v-on="on">Nuevo Cliente</v-btn>
         </template>
@@ -34,6 +34,12 @@
                         :items= "[0,1,2,3,4,5]"
                         label="Evaluación"
                     ></v-combobox>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.fonoCliente" label="fono"></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6 md4>
+                  <v-text-field v-model="editedItem.estadoCliente" label="estado"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -64,9 +70,10 @@
             </div>
         </td>
         <td class="justify-center layout px-0">
-          <v-icon
+           <v-icon
             small
             class="mr-2"
+            @click="verDetalle(props.item)"
           >
             assignment
           </v-icon>
@@ -139,7 +146,7 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        return this.editedIndex === -1 ? 'Nuevo Cliente' : 'Editar Cliente'
       }
     },
 
@@ -168,13 +175,13 @@
                 nombreCliente: item.nombreCliente,
                 rubroCliente: item.rubroCliente,
                 evaluacionCliente: item.evaluacionCliente,
-                emailCliente: "email",
+                emailCliente: item.emailCliente,
                 fonoCliente: item.fonoCliente,
                 estadoCliente: item.estadoCliente});
           console.log(json);
           axios.post('http://localhost:9000/api/clientes/'+accion, json)
             .then(function (response) {
-              console.log(response);
+              
               this.nota = 0;
             })
             .catch(function (error) {
@@ -207,6 +214,9 @@
           //this.datos.push(this.editedItem)
         }
         this.close()
+      },
+      verDetalle (cliente) {
+          this.$router.push({ name: 'detalleCliente', params: {cliente: cliente} });
       }
     }
   }
@@ -218,7 +228,7 @@
 .v-dialog__content{
   margin-top: 1px !important;
    max-width: 90% !important;
-   height: 1500% !important;
+   height: 800% !important;
 }
 
 </style>

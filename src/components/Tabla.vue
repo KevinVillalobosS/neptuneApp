@@ -8,6 +8,13 @@
         vertical
       ></v-divider>
       <v-spacer></v-spacer>
+        <v-text-field
+        v-model="searcher"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
       <v-layout row justify-center>
         <v-dialog v-model="dialog" persistent max-width="1100px" className="nuevaProp">
         <template v-slot:activator="{ on }">
@@ -26,12 +33,12 @@
                 <v-flex xs12 sm6 md4>
                   <!-- <v-text-field v-model="editedItem.cliente" label="Cliente"></v-text-field>   -->
                     <v-combobox
-                      v-model="model"
+                      v-model="editedItem.cliente"
                       :items="items"
                       :search-input.sync="search"
                       hide-selected
                       hint="Seleccione el Cliente asociado"
-                      label="Add some tags"
+                      label="Elegir Cliente"
                       persistent-hint
                     />
                 </v-flex>
@@ -56,7 +63,7 @@
     <v-data-table
       :headers="headers"
       :items="propuestas"
-      class="elevation-1"
+      :search="searcher"
     >
       <template v-slot:items="props">
         <td>{{ props.item.nombrePropuesta }}</td>
@@ -67,6 +74,7 @@
           <v-icon
             small
             class="mr-2"
+            @click="verDetalle(props.item)"
           >
             assignment
           </v-icon>
@@ -97,13 +105,14 @@
   axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
   export default {
 
-    props: ['tipo','propuestas'],
+    props: ['tipo','propuestas','clientes'],
     
     data: () => ({
-      items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
+      items: [],
       model: [],
       search: null,
       dialog: false,
+      searcher: '',
       headers: [
         {
           text: 'Nombre de Propuesta',
@@ -111,9 +120,9 @@
           sortable: false,
           value: 'nombrePropuesta'
         },
-        { text: 'Cliente', value: 'Cliente' },
-        { text: 'Fecha', value: 'Fecha' },
-        { text: 'Estado', value: 'Estado' },
+        { text: 'Cliente', value: 'cliente' },
+        { text: 'Fecha', value: 'fecha' },
+        { text: 'Estado', value: 'estado' },
         { text: 'Actions', value: 'nombrePropuesta', sortable: false }
       ],
       editedIndex: -1,
@@ -133,7 +142,14 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+        if (this.items.length == 0){
+          this.clientes.forEach(element => {
+            this.items.push(element.nombreCliente);
+          });
+        }
+        return this.editedIndex === -1 ? 'Nueva Propuesta' : 'Editar Propuesta'
+        
+
       }
     },
 
@@ -144,6 +160,7 @@
     },
 
     created () {
+
     },
 
     methods: {
@@ -157,6 +174,7 @@
                 idPropuesta: "0",
                 nombrePropuesta: item.nombrePropuesta,
                 cliente: item.cliente,
+                idCliente: this.items.indexOf(item.cliente)+1,
                 fecha: item.fecha,
                 estado: item.estado});
           console.log(json);
@@ -195,6 +213,18 @@
           //this.propuestas.push(this.editedItem)
         }
         this.close()
+      },
+      verDetalle (item) {
+          let clienteProp = []; 
+          console.log(this.clientes);
+          for (let element of this.clientes) {
+                if (element.nombreCliente == item.cliente){
+                      clienteProp = element;
+                      break;
+                }            
+            
+          }
+          this.$router.push({ name: 'detallePropuesta', params: {propuesta: item, cliente: clienteProp} });
       }
     }
   }

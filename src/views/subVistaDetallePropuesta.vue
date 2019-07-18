@@ -8,36 +8,25 @@
       <div class="side">
         <side-bar></side-bar>
       </div>
-        <Clientes></Clientes>
+      <DetallesPropuesta></DetallesPropuesta>
     </div>
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld.vue'
+import DetallesPropuesta from '../components/DetallesPropuesta.vue'
 import SideBar from '../components/SideBar.vue'
-import Clientes from '../components/Clientes.vue'
-import Tabla from '../components/Tabla.vue'
 
 export default {
-  name: "vistaClientes",
+  name: "subVistaDetallePropuesta",
   components: {
-    HelloWorld: HelloWorld,
+    DetallesPropuesta: DetallesPropuesta,
     SideBar: SideBar,
-    Clientes: Clientes,
-    Tabla: Tabla
   }
 }
 
+
 </script>
 
-
-<style scoped>
-.vistaClientes{
-    margin-left: 19.5% !important;
-    height: 100% !important;
-    width: 80% !important;
-} 
-</style>
 
 <style>
 

@@ -3,6 +3,7 @@
         <Tabla 
             :propuestas = "info"
             :tipo = "tipo"
+            :clientes = "clientes"
         ></Tabla>
     </div>
 </template>
@@ -21,17 +22,18 @@ const axios = require('axios');
             .then(response => {
                 this.info = response.data;
                 console.log(this.info);
-            })/*,
+            }),
             axios
             .get("http://localhost:9000/api/clientes/clientes")
             .then(response => {
-                this.info = response.data;
+                this.clientes = response.data;
                 console.log(this.info);
-            })*/
+            })
         },
         data() {
             return {
                 info: [],
+                clientes: [],
                 tipo: "PROPUESTAS"
             }
         },

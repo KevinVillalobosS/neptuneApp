@@ -5,14 +5,14 @@
             <div class="background">
             </div>
             <a href="#user"><img class="circle" src="..\assets\persona.png"></a>
-            <a href="#name"><span class="white-text name">Nombre Apellido</span></a>
+            <a href="#name"><span class="white-text name">nombre apellido</span></a>
             <a href="#rol"><span class="white-text email">rol</span></a>
         </div></li>
         <li>
           <router-link to="/clientes"> Clientes</router-link>
         </li>
          <li>
-          <router-link to="/detProp">Propuestas</router-link>
+          <router-link to="/propuestas">Propuestas</router-link>
         </li>
         <li><a href="#!">Perfiles</a></li>
         <li><a href="#!">Estadisticas</a></li>
@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  props: ['nombre','apellido','rol'],
   name: 'SideBar'
 }
 </script>

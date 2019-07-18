@@ -1,6 +1,6 @@
 <template>
     <div id="es">
-      <nav>
+        <nav>
         <div class="nav-wrapper">
           <a href="#" class="brand-logo right">JAPOTIR</a>
         </div>
@@ -8,36 +8,26 @@
       <div class="side">
         <side-bar></side-bar>
       </div>
-        <Clientes></Clientes>
+      <DetallesCliente></DetallesCliente>
     </div>
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld.vue'
+import DetallesCliente from '../components/DetallesCliente.vue'
 import SideBar from '../components/SideBar.vue'
-import Clientes from '../components/Clientes.vue'
-import Tabla from '../components/Tabla.vue'
 
 export default {
-  name: "vistaClientes",
+  name: "subVistaDetalleCliente",
   components: {
-    HelloWorld: HelloWorld,
+    DetallesCliente: DetallesCliente,
     SideBar: SideBar,
-    Clientes: Clientes,
-    Tabla: Tabla
+
   }
 }
 
+
 </script>
 
-
-<style scoped>
-.vistaClientes{
-    margin-left: 19.5% !important;
-    height: 100% !important;
-    width: 80% !important;
-} 
-</style>
 
 <style>
 

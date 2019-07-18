@@ -8,22 +8,22 @@
         <v-tab-item :key="1">
             <v-card>
                 <v-card-title>
-                <span class="headline">PROPUESTA TITANIUM</span>
+                <span class="headline">{{ this.$route.params.propuesta.nombrePropuesta }}</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
                             <v-flex xs12 sm6 md3>
-                                <v-text-field readonly label="Nombre Propuesta" value="Propuesta TITANIUM"></v-text-field>
+                                <v-text-field readonly label="Nombre Propuesta" :value="this.$route.params.propuesta.nombrePropuesta"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md3>
-                                <v-text-field readonly label="Nombre Cliente" value="FACH"></v-text-field>
+                                <v-text-field readonly label="Nombre Cliente" :value="this.$route.params.propuesta.cliente"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md3>
-                                <v-text-field readonly label="Fecha de Creación" value="05/03/2019" ></v-text-field>
+                                <v-text-field readonly label="Fecha de Creación" :value="this.$route.params.propuesta.fecha" ></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md3>
-                                <v-text-field readonly label="Estado" value="Pendiente" ></v-text-field>
+                                <v-text-field readonly label="Estado" :value="this.$route.params.propuesta.estado" ></v-text-field>
                             </v-flex>
                         </v-layout>                      
                     </v-container>
@@ -40,22 +40,22 @@
                     <v-container grid-list-md>
                         <v-layout wrap>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field readonly label="Nombre del Cliente" value="FACH"></v-text-field>
+                                <v-text-field readonly label="Nombre del Cliente" :value="this.$route.params.cliente.nombreCliente"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field readonly label="Evaluación" value="4/5"></v-text-field>
+                                <v-text-field readonly label="Evaluación" :value="this.$route.params.cliente.evaluacionCliente+'/5'"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field readonly label="Rubro del Cliente" value="Transporte" ></v-text-field>
+                                <v-text-field readonly label="Rubro del Cliente" :value="this.$route.params.cliente.rubroCliente" ></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field readonly label="Email de Contacto" value="email@email.cl" ></v-text-field>
+                                <v-text-field readonly label="Email de Contacto" :value="this.$route.params.cliente.emailCliente" ></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field readonly label="Fono de Contacto" value="9-12345678"></v-text-field>
+                                <v-text-field readonly label="Fono de Contacto" :value="this.$route.params.cliente.fonoCliente"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm6 md4>
-                                <v-text-field readonly label="Estado" value="Activo"></v-text-field>
+                                <v-text-field readonly label="Estado" :value="this.$route.params.cliente.estadoCliente"></v-text-field>
                             </v-flex>
                         </v-layout>                      
                     </v-container>
@@ -63,7 +63,10 @@
             </v-card>
         </v-tab-item>
         <v-tab-item :key="2">
-            <Archivos></Archivos>
+            <Archivos
+                :archivosProp="archivosProp"
+            
+            ></Archivos>
             <!--
              <div class="container">
                 <div class="large-12 medium-12 small-12 cell">
@@ -87,7 +90,8 @@ export default {
   name: "DetallePropuesta",
   components: {
     Archivos: Archivos,
-  }
+  },
+  props: ['propuesta','datos', 'cliente','archivosProp']
 }
 
 </script>

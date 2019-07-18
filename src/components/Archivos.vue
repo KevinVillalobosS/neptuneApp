@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Tabla !-->
     <v-toolbar flat color="white">
       <v-toolbar-title> ARCHIVOS DE DESARROLLO </v-toolbar-title>
       <v-divider
@@ -37,7 +38,7 @@
     </v-toolbar>
     <v-data-table
       :headers="headers"
-      :items="datos"
+      :items="archivosProp"
       class="elevation-1"
     >
       <template v-slot:items="props">
@@ -58,7 +59,7 @@
             class="mr-2"
             @click="editItem(props.item)"
           >
-            edit
+            download
           </v-icon>
           <v-icon
             small
@@ -79,8 +80,8 @@
 import Axios from 'axios';
 const axios = require('axios');
 export default {
-
-    props: ['tipo','datos', 'nota'],
+    //nombre de la propuesta, datos de la propuesta, y cliente asociado
+    props: ['archivosProp'],
     
     data: () => ({
       items: ['Gaming', 'Programming', 'Vue', 'Vuetify'],
@@ -214,6 +215,11 @@ export default {
 .container{
     margin-left: 19.5% ;
     width: 80% !important;
+}
+
+.v-dialog__content{
+   width: 95% !important;
+   height: 400% !important;
 }
 
 </style>

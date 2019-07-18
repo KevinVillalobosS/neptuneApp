@@ -1,17 +1,9 @@
 <template>
- <v-app class="app">
-      <nav>
-        <div class="nav-wrapper">
-          <a href="#" class="brand-logo right">JAPOTIR</a>
-        </div>
-      </nav>
-      <div class="side">
-        <side-bar></side-bar>
-      </div>
+ <div class="app">
       <div class="componentes">
         <router-view/>
       </div>
- </v-app>
+ </div>
  
 </template>
 
