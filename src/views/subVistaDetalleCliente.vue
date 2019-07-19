@@ -2,7 +2,7 @@
     <div id="es">
         <nav>
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo right">JAPOTIR</a>
+          <a href="#" class="brand-logo right">JUPITER</a>
         </div>
       </nav>
       <div class="side">

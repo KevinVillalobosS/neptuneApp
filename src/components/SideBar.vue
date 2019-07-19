@@ -4,7 +4,6 @@
          <li><div class="user-view">
             <div class="background">
             </div>
-            <a href="#user"><img class="circle" src="..\assets\persona.png"></a>
             <a href="#name"><span class="white-text name">nombre apellido</span></a>
             <a href="#rol"><span class="white-text email">rol</span></a>
         </div></li>

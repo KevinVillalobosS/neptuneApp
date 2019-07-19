@@ -60,7 +60,6 @@
       <template v-slot:items="props">
         <td>{{ props.item.nombreCliente }}</td>
         <td class="text-xs-left">{{ props.item.rubroCliente }}</td>
-        <td class="text-xs-left">{{ props.item.cantidadPropuestas }}</td>
         <td class="text-xs-right">
             <div class="text-xs-center">
                 <v-rating 
@@ -119,7 +118,6 @@
           value: 'nombreCliente'
         },
         { text: 'Rubro', value: 'rubro' },
-        { text: 'Cantidad de Propuestas', value: 'cantidadPropuestas' },
         { text: 'Evaluación', value: 'evaluacionCliente' },
         { text: 'Acciones', value: 'nombreCliente', sortable: false }
       ],
@@ -185,7 +183,6 @@
               this.nota = 0;
             })
             .catch(function (error) {
-              console.log("error");
               console.log(error);
             });
       },
